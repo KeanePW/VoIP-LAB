@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SnomIPPhoneText>
+ <Title>Comando Luce</Title>
+   <Text>
+     Benvenuto nel controllo luci.<br/>
+     Utilizza i tasti funzione per accendere o spegnere la luce
+   </Text>
+   <SoftKeyItem>
+     <Name>F1</Name>
+     <Label>OFF</Label>
+     <URL>http://192.168.68.192/dummy.htm?pa1_pin4=off&amp;settings=save</URL>
+   </SoftKeyItem>
+   <SoftKeyItem>
+     <Name>F2</Name>
+     <Label>ON</Label>
+     <URL>http://192.168.68.192/dummy.htm?pa1_pin4=on&amp;settings=save</URL>
+   </SoftKeyItem>
+</SnomIPPhoneText>
