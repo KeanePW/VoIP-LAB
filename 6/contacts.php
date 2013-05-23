@@ -11,12 +11,21 @@ This script uses the Zend Gdata library: you can download it at http://framework
 3) configure $pattern and $replacement: this vars are used to manipulate the phone number with preg_replace($pattern, $replacement, $phone_number)
 **/
 
-$user = "ciccio@pasticcio.com"; // GMail username
-$pass = "XXXXXXXXXXXXXXXXXXXX"; // GMail password
+$user = "example@gmail.com"; // GMail username
+$pass = "changeme"; // GMail password
 
-// This example adds a 0 in front of the number
+/*
+Regex phone number manipulations.
+
+/*
+//This example adds a 0 in front of the number
+
 $pattern = '/(.*)/';
 $replacement = '0$1';
+*/
+
+$pattern="/(.*)/";
+$replacement="";
 
 // Zend Framework path:
 set_include_path(get_include_path() . PATH_SEPARATOR . "ZendGdata/library");
@@ -35,55 +44,54 @@ Zend_Loader::loadClass('Zend_Gdata_Query');
 Zend_Loader::loadClass('Zend_Gdata_Feed');
  
 if (isset($_GET["q"])){ 
-  try {
-    $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, 'cp');
+	try {
+		$client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass, 'cp');
  
-    $gdata = new Zend_Gdata($client);
-    $gdata->setMajorProtocolVersion(3);
+		$gdata = new Zend_Gdata($client);
+		$gdata->setMajorProtocolVersion(3);
  
-    $query = new Zend_Gdata_Query('http://www.google.com/m8/feeds/contacts/default/full?q='.$_GET["q"].'&max-results=10000');
-    $feed = $gdata->getFeed($query);
-    $results=array();
-    $print = false;
-    $out_buffer = "<SnomIPPhoneDirectory>
-<Title>Menu</Title>
+		$query = new Zend_Gdata_Query('https://www.google.com/m8/feeds/contacts/default/full?q='.$_GET["q"].'&max-results=10000');
+		$feed = $gdata->getFeed($query);
+		$results=array();
+		$print = false;
+		$out_buffer = "<SnomIPPhoneDirectory>
+<Title>Google Contacts</Title>
 <Prompt>Prompt</Prompt>
 ";
 
-    foreach($feed as $entry){
-    
-      $xml = simplexml_load_string($entry->getXML());
-      $name = array();
-      $org = (string)$xml->organization->orgName;
-      if(!empty($org)) {
-        $name[] = $org;
-      }
+		foreach($feed as $entry){
+			$xml = simplexml_load_string($entry->getXML());
+			$name = array();
+			$org = (string)$xml->organization->orgName;
+			if(!empty($org)) {
+				$name[] = $org;
+			}
  
-      $title = (string)$entry->title;
-      if(!empty($title)) {
-        $name[] = $title;
-      }
+			$title = (string)$entry->title;
+			if(!empty($title)) {
+				$name[] = $title;
+			}
 
-      if(count($name) > 0 && count($xml->phoneNumber)) {	
-        foreach ($xml->phoneNumber as $p) {
-          // apply number subst.
-	  $tel = preg_replace($pattern,$replacement,(string)$p);
-	  $label = isset($p['label']) ? $p['label'] : preg_replace('/^((?:.*)#)/', '', $p['rel']);
-	  $key = implode(" - ", $name) . " - " . $label;
-          $out_buffer = $out_buffer . "<DirectoryEntry>
+			if(count($name) > 0 && count($xml->phoneNumber)) {	
+				foreach ($xml->phoneNumber as $p) {
+				// apply number subst.
+					$tel = preg_replace($pattern,$replacement,(string)$p);
+					$label = isset($p['label']) ? $p['label'] : preg_replace('/^((?:.*)#)/', '', $p['rel']);
+					$key = implode(" - ", $name) . " (" . $label . ")";
+					$out_buffer = $out_buffer . "<DirectoryEntry>
 <Name>$key</Name>
 <Telephone>$tel</Telephone>
 </DirectoryEntry>
 ";
-        }
-     $print = true;
-     } else {
-       continue;
-     }
-   } 
-   $out_buffer = $out_buffer . "
+				}
+				$print = true;
+			} else {
+				continue;
+			}
+		}
+		$out_buffer = $out_buffer . "
 </SnomIPPhoneDirectory>";
-    if ($print == false) {
+		if ($print == false) {
 ?>
 <SnomIPPhoneText>
  <Title>Not found</Title>
@@ -93,10 +101,10 @@ if (isset($_GET["q"])){
  </Text>
 </SnomIPPhoneText>
 <?php
-  } else {
-  echo $out_buffer;
-}  
-  } catch (Exception $e) {
+		} else {
+			echo $out_buffer;
+		}  
+	} catch (Exception $e) {
 ?>
 <SnomIPPhoneText>
  <Title>ERROR</Title>
@@ -106,16 +114,16 @@ if (isset($_GET["q"])){
  </Text>
 </SnomIPPhoneText>
 <?php
-  die();  
-  } 
+		die();  
+	} 
 } else {
 ?>
 <SnomIPPhoneInput>
-<Title>Search</Title>
+<Title>Google Contacts search:</Title>
 <Prompt>Prompt</Prompt>
 <URL>http://<?php echo $_SERVER['SERVER_NAME'] . $_SERVER["PHP_SELF"] ?></URL>
 <InputItem>
-<DisplayName>Search:</DisplayName>
+<DisplayName>Google Contacts search:</DisplayName>
 <QueryStringParam>q</QueryStringParam>
 <DefaultValue/>
 <InputFlags>a</InputFlags>
