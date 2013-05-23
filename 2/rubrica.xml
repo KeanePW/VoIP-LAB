@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SnomIPPhoneDirectory>
+ <Title>Menu</Title>
+ <Prompt>Prompt</Prompt>
+ <DirectoryEntry>
+  <Name>Supporto</Name>
+  <Telephone>02239812</Telephone>
+ </DirectoryEntry>
+ <DirectoryEntry>
+  <Name>Bertera Pietro</Name>
+  <Telephone>1002</Telephone>
+ </DirectoryEntry>
+ <DirectoryEntry>
+  <Name>Paolo Rossi</Name>
+  <Telephone>021243</Telephone>
+ </DirectoryEntry>
+ <SoftKeyItem>
+  <Name>#</Name>
+  <URL>http://www.snomchannel.it/static/02/helloworld.xml</URL>
+ </SoftKeyItem>
+</SnomIPPhoneDirectory>
