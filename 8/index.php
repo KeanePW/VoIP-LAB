@@ -127,7 +127,7 @@ switch ($_POST['action']) {
 
          <h1>snom redirection service test page</h1>
          <p>
-         This page is a simple PHP client for snom redirection service.
+         This page is a simple snom redirection service client written in PHP.
          You can test the redirection sevice filling the following form:
          </p>
         <table><tr><td>
