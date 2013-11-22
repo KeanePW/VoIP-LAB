@@ -1,6 +1,5 @@
 snom caller picture feature
 ===========================
 
-Questo è il repository dell'articolo VoIP Lab [snom redirection service: provisioning "handsfree"](http://www.snomchannel.it/index.php/snom-redirection-service-provisioning-handsfree)
+Questo è il repository dell'articolo VoIP Lab [Caller picture nei telefoni snom](http://www.snomchannel.it/index.php/caller-picture-nei-telefoni-snom/)
 
- get_fb_image.sh 
