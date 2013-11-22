@@ -1,0 +1,8 @@
+; sip.conf peer definition:
+
+[150]
+type=friend
+secret=1234
+host=dynamic
+; the facebook username is stored in the mailbox paramether
+mailbox=snom.VoIP.phones

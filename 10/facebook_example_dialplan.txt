@@ -1,0 +1,15 @@
+; retreive the peer mailbox paramether storing the Facebook account name
+exten => _15[0-9],1,Set(fb_uid=${SIPPEER(${EXTEN},mailbox)})
+; run the external script, please use your script PATH
+exten => _15[0-9],n,Set(pic=${SHELL(/opt/scripts/get_fb_image.sh ${fb_uid}):0:-1})
+; if no picture dial the extension
+exten => _15[0-9],n,GotoIf($["${pic}" == ""]?dial)
+; picture found
+exten => _15[0-9],n,NoOp(Found image at: ${pic}}
+; add the Call-Info header
+exten => _15[0-9],n,SipAddHeader("Call-Info: <${pic}>\;purpose=icon")
+; finally dial the extension
+exten => _15[0-9],n,Goto(dial)
+
+; dial
+exten => _15[0-9],n(dial),Dial(SIP/${EXTEN})

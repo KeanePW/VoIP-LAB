@@ -1,0 +1,13 @@
+; route internal calls keeping the Call-Info header if present
+; in the first leg
+exten => _15[0-9],1,Set(CIH=${SIP_HEADER(Call-Info)})
+; if Call-Info is present goto "hascallinfo"
+exten => _15[0-9],n,GotoIf($["${CIH}" != ""]?hascallinfo)
+; else dial
+exten => _15[0-9],n,Dial(SIP/${EXTEN})
+exten => _15[0-9],n,Hangup()
+; Alert-Info is present: add Call-Info header to outgoing INVITE
+exten => _15[0-9],n(hascallinfo),SipAddHeader("Call-Info: ${CIH}")
+; dial the extension
+exten => _15[0-9],n,Dial(SIP/${EXTEN})
+exten => _15[0-9],n,Hangup()
